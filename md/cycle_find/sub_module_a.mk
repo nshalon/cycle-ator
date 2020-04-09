@@ -1,4 +1,4 @@
-all: plot1
+all: nucmer
 
 DIR_DONE=$(CYC_FIND_OUT)/.cyc_find_dir_done
 $(DIR_DONE):
@@ -57,7 +57,7 @@ $(GET_WEIGHTS): $(GEN_K_SEQS)
 get_weights : $(GET_WEIGHTS) 
 
 PLOT_STEP_1?=$(CYC_FIND_OUT)/.plot_step1
-$(PLOT_STEP_1): #$(GET_WEIGHTS)
+$(PLOT_STEP_1): $(GET_WEIGHTS)
 	$(_start)
 	Rscript $(_r)/graph_network.R $(CYC_FIND_OUT)/adjacency_matrix $(CYC_FIND_OUT)/edge_summary $(CYC_FIND_OUT)
 	#Rscript $(_r)/plot_coverage.R $(CYC_FIND_OUT)/contig_coverage $(CYC_FIND_OUT)
