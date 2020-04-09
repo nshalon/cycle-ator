@@ -13,10 +13,10 @@ library(ggplot2)
 
 path = args[3]
 # matrix = read.table("/Users/nitan/Relman/new/test_files/adjacency_matrix")
-# list_cov = read.delim("/Users/nitan/Relman/new/out_test_files/cov_list",sep=" ",header=F)
+# list_cov = read.delim("/Users/nitan/Relman/new/test_files/edge_summary",sep=c("\t"," "),header=T)
 list_cov = as.data.frame(read.delim(args[2],sep="\t",header=T))
-
-edge_weights = as.character(round(as.numeric(list_cov[,5]),2))
+edge_labs = paste0("l:",list_cov$length,",c:",round(as.numeric(list_cov$coverage)),",w:",signif(as.numeric(list_cov$weight),digits=1))
+# edge_weights = as.character(round(as.numeric(list_cov[,5]),2))
 
 matrix = read.table(args[1])
 names = as.vector(rownames(matrix))
@@ -24,9 +24,8 @@ names = substring(names,2)
 colnames(matrix) = rownames(matrix) = names
 matrix = as.matrix(matrix)
 
-
 network = graph_from_adjacency_matrix(matrix)
-# E(network)
+
 
 pdf(paste(path,"/network_graph.pdf",sep=""),width=7,height=9)
 
@@ -34,8 +33,8 @@ network_plot = plot(network,
      vertex.size=20,
      vertex.label.cex = 0.8,
      edge.arrow.size=0.5,
-     edge.label = edge_weights,
-     edge.label.xex=0.7)
+     edge.label = edge_labs,
+     edge.label.cex=0.35)
 dev.off()
 
 tile = melt(matrix)
