@@ -2,5 +2,14 @@ out_base/**
 hmm_profiles
 mummer-4.0.0beta2
 old_dirs/**
-.*
+.DS_Store
+._.DS_Store
+.done
+.done_clean
+.done_table
+.gitignore
+.png
+
+
+
 md/sratoolkit.2.9.6-1-centos_linux64
