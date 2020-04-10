@@ -12,6 +12,6 @@ $(call _register_module,gen_ex,$(units),,)
 
 
 # step 1
-plas?=two
-OUT_DIR_EX=$(SAMPLE_DIR)/$(plas)
+sample?=two
+OUT_DIR_EX=$(SAMPLE_DIR)/$(sample)
 

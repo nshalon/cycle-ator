@@ -7,7 +7,7 @@ dir: $(DIR_DONE1)
 
 MF_DONE?=$(OUT_DIR_GEN)/'fasta'
 $(MF_DONE): $(DIR_DONE1)
-	Rscript $(_r)/R_call.r $(_r)/gen_assembly.r gen.$(plas) \
+	Rscript $(_r)/R_call.r $(_r)/gen_assembly.r gen.$(sample) \
            ofn.fasta=$(OUT_DIR_EX)/mol.fasta \
            ofn.table=$(OUT_DIR_EX)/mol.tab
 	rc=$?; if [ $rc -ne 0 ]; then exit 1; fi
