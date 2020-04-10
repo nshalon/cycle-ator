@@ -13,6 +13,7 @@ varisum_dir?=/relman02/users/eitany/ms_root/makeshift-modules/vari//bin.koch.sta
 _read_dir?=$(OUT_DIR)
 # DEFAULT KMER SIZE FOR ASSEMBLY
 _k?=77
+sim?=F # whether sample is simulated
 
 # DB FOR ANNOTATION
 UNIREF_DIAMOND_DB_DIR=/relman03/work/users/eitany/bcc/diamond_db

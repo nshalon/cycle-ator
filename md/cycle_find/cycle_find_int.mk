@@ -2,7 +2,12 @@
 # register module
 #####################################################################################################
 
-units=sub_module_a.mk
+ifeq ($(sim),F)
+    units=sub_module_real.mk
+else
+    units=sub_module_sim.mk
+endif
+
 $(call _register_module,cycle_find,$(units),,)
 
 #####################################################################################################

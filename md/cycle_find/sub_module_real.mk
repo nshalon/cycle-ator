@@ -1,4 +1,4 @@
-all: plot1
+all: plot_cycs
 
 DIR_DONE=$(CYC_FIND_OUT)/.cyc_find_dir_done
 $(DIR_DONE):
@@ -24,11 +24,7 @@ fasta_to_fastg: $(FASTA_TO_FASTG_DONE)
 PARSE_FASTG?=$(CYC_FIND_OUT)/.parse_fastg
 $(PARSE_FASTG): $(FASTA_TO_FASTG_DONE)
 	$(_start)
-	ifeq ($(sim),F)
-	    python $(_py)/parse_fastg.py $(CYC_FIND_OUT)/k$(_k).fastg  $(CYC_FIND_OUT)/adjacency_list $(CYC_FIND_OUT)/contig_rename_map $(CYC_FIND_OUT)/renamed_final_contigs.fa $(CYC_FIND_OUT)/adjacency_matrix
-	else
-	    python $(_py)/parse_fastg_sim.py $(CYC_FIND_OUT)/k$(_k).fastg  $(CYC_FIND_OUT)/adjacency_list $(CYC_FIND_OUT)/contig_rename_map $(CYC_FIND_OUT)/renamed_final_contigs.fa $(CYC_FIND_OUT)/adjacency_matrix
-	endif
+	python $(_py)/parse_fastg.py $(CYC_FIND_OUT)/k$(_k).fastg  $(CYC_FIND_OUT)/adjacency_list $(CYC_FIND_OUT)/contig_rename_map $(CYC_FIND_OUT)/renamed_final_contigs.fa $(CYC_FIND_OUT)/adjacency_matrix
 	$(_end_touch)
 parse_fastg: $(PARSE_FASTG)
 
@@ -53,22 +49,12 @@ gen_k_seqs: $(GEN_K_SEQS)
 GET_WEIGHTS?=$(CYC_FIND_OUT)/.get_weight
 $(GET_WEIGHTS): $(GEN_K_SEQS)
 	$(_start)
-	#python $(_py)/get_edge_coverage.py $(CYC_FIND_OUT)/contig_rename_map $(CYC_FIND_OUT)/kmer_list $(CYC_FIND_OUT)/filter_kmer_map_table $(CYC_FIND_OUT)/adjacency_matrix $(CYC_FIND_OUT)/edge_weight_list $(CYC_FIND_OUT)/edge_weight_matrix
-#	python $(_py)/precise_k_cov.py $(CYC_FIND_OUT)/contig_rename_map $(CYC_FIND_OUT)/kmer_list $(CYC_FIND_OUT)/k_reads.fastq $(CYC_FIND_OUT)/adjacency_list $(CYC_FIND_OUT)/kmer.fasta $(CYC_FIND_OUT)/edge_summary $(CYC_FIND_OUT)/edge_weight_matrix   
-	python $(_py)/precise_k_cov_sim.py $(read1) $(read2) $(CYC_FIND_OUT)/contig_rename_map $(CYC_FIND_OUT)/kmer_list $(CYC_FIND_OUT)/adjacency_matrix $(CYC_FIND_OUT)/adjacency_list $(CYC_FIND_OUT)/kmer.fasta $(CYC_FIND_OUT)/edge_summary $(CYC_FIND_OUT)/edge_weight_matrix
+	python $(_py)/precise_k_cov.py $(CYC_FIND_OUT)/contig_rename_map $(CYC_FIND_OUT)/kmer_list $(CYC_FIND_OUT)/k_reads.fastq $(CYC_FIND_OUT)/adjacency_list $(CYC_FIND_OUT)/kmer.fasta $(CYC_FIND_OUT)/edge_summary $(CYC_FIND_OUT)/edge_weight_matrix   
 	$(_end_touch)
 get_weights : $(GET_WEIGHTS) 
 
-PLOT_STEP_1?=$(CYC_FIND_OUT)/.plot_step1
-$(PLOT_STEP_1): $(GET_WEIGHTS)
-	$(_start)
-	Rscript $(_r)/graph_network.R $(CYC_FIND_OUT)/adjacency_matrix $(CYC_FIND_OUT)/edge_summary $(CYC_FIND_OUT)
-	#Rscript $(_r)/plot_coverage.R $(CYC_FIND_OUT)/contig_coverage $(CYC_FIND_OUT)
-	$(_end_touch)
-plot1: $(PLOT_STEP_1)
-
 SHORT_CYCS?=$(CYC_FIND_OUT)/.short_cycs
-(SHORT_CYCS): $(PLOT_STEP_1)
+$(SHORT_CYCS): $(GET_WEIGHTS)
 	$(_start)
 	mkdir -p $(CYC_FIND_OUT)/cycle_stats
 	python $(_py)/get_shortest_cycs.py $(CYC_FIND_OUT)/adjacency_list $(CYC_FIND_OUT)/edge_summary $(CYC_FIND_OUT)/cycle_stats $(CYC_FIND_OUT)/summary_cycles
@@ -85,17 +71,6 @@ $(PLOT_CYCS): $(SHORT_CYCS)
 	$(_end_touch)
 plot_cycs: $(PLOT_CYCS) 
 
-NUCMER?=$(CYC_FIND_OUT)/.cycfind_nuc
-$(NUCMER): #$(PLOT_CYCS)
-	$(_nucmer)/nucmer --delta=$(CYC_FIND_OUT)/REF_ORIGSEQS.delta $(molfasta) $(origfasta)
-	$(_nucmer)/nucmer --delta=$(CYC_FIND_OUT)/REF_REF.delta $(molfasta) $(molfasta)
-	$(_nucmer)/nucmer --delta=$(CYC_FIND_OUT)/REF_CONTIG.delta $(molfasta) $(CYC_FIND_OUT)/renamed_final_contigs.fa 
-	$(_nucmer)/nucmer --delta=$(CYC_FIND_OUT)/ORIGSEQS_CONTIG.delta $(origfasta) $(CYC_FIND_OUT)/renamed_final_contigs.fa
-	$(_nucmer)/mummerplot --prefix=$(CYC_FIND_OUT)/REF_ORIGSEQS --png $(CYC_FIND_OUT)/REF_ORIGSEQS.delta
-	$(_nucmer)/mummerplot --prefix=$(CYC_FIND_OUT)/REF_REF --png $(CYC_FIND_OUT)/REF_REF.delta
-	$(_nucmer)/mummerplot --prefix=$(CYC_FIND_OUT)/REF_CONTIG --png $(CYC_FIND_OUT)/REF_CONTIG.delta
-	$(_nucmer)/mummerplot --prefix=$(CYC_FIND_OUT)/ORIGSEQS_CONTIG --png $(CYC_FIND_OUT)/ORIGSEQS_CONTIG.delta
-nucmer: $(NUCMER)
 
 
 
