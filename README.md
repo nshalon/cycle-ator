@@ -19,7 +19,7 @@ Other configurable variables:
 
 To run a sample, type
 
-`$ make cyc\_find sample=*SAMPLE_NAME*`
+`$ make cyc_find sample=*SAMPLE_NAME*`
 
 
  
