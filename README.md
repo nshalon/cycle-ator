@@ -11,15 +11,15 @@ This pipeline uses common bioinformatic software. Please edit the following vari
 - \_mega: megahit for assembly  
 - \_nucmer: nucmer for alignment (usually for simulated data)
 - \_bwa: bwa for mapping reads
-- \_read\_dir: directory to find paired reads in fastq format called R1.fastq and R2.fastq (names can be edited in cyc\_find interface)
 
 Other configurable variables:
 
 - \_k: edit the kmer size used for assembly
+- \_read\_dir: directory to find paired reads in fastq format called R1.fastq and R2.fastq (names can be edited in cyc\_find interface)
 
 To run a sample, type
 
-`$ make cyc_find sample=*SAMPLE_NAME*`
+`$ make cyc_find sample=SAMPLE_NAME`
 
 
  
