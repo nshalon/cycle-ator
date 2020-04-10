@@ -3,7 +3,6 @@
 ###################################################
 
 _recycle_dir?=/home/nshalon/python/python3/bin
-_read_dir?=/relman02/data/public/HMP/shotgun_healthy_gut
 _bwa?=/relman02/users/eitany/download/bwa-0.7.12/bwa
 _py?=md/Python
 _pl?=md/pl
@@ -11,7 +10,7 @@ _r?=md/R
 _mega?=/home/dethlefs/bin
 _nucmer?=/home/nshalon/work/pipe/mummer-4.0.0beta2
 varisum_dir?=/relman02/users/eitany/ms_root/makeshift-modules/vari//bin.koch.stanford.edu/
-
+_read_dir?=$(OUT_DIR)
 # DEFAULT KMER SIZE FOR ASSEMBLY
 _k?=77
 
