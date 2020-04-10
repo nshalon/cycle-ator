@@ -4,7 +4,7 @@ Cycleator is a tool for *de novo* recognition of circular mobile elements such a
 
 To access this pipeline, type
 
-`$ git clone https://github.com/nshalon/cycleator.git`
+`$ git clone https://github.com/nshalon/cycle-ator.git`
 
 This pipeline uses common bioinformatic software. Please edit the following variables in `global.mk` so that they lead to local paths for the following tools:
 
