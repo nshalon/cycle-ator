@@ -1,4 +1,4 @@
-# Cycleator
+# cCycle-ator
 
 Cycleator is a tool for *de novo* recognition of circular mobile elements such as plasmids and phages in microbial metagenomic samples. It's designed with the purpose of avoiding false positives from chromosomal cycles that can arise in assembly graphs.
 
