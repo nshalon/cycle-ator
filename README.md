@@ -23,9 +23,8 @@ To run a real metagenomic sample:
 
 To run a simulated sample:
 
-`$ make make_ex sample=SIM_SAMPLE_NAME`
+`$ make make_ex cyc_find sample=SIM_SAMPLE_NAME sim=T`
 
-`$ make cyc_find sample=SIM_SAMPLE_NAME sim=T`
 
 
 
