@@ -10,9 +10,9 @@ dir: $(DIR_DONE)
 ASSEMBLE_DONE?=$(CYC_FIND_OUT)/.assemble_done
 $(ASSEMBLE_DONE): $(DIR_DONE)
 	$(_start)
-	$(_mega)/megahit -m 0.84 -o $(CYC_FIND_OUT)/megahit --bubble-level 0 --min-contig-len 27 --k-min 27 --k-max $(_k) --k-step 10 --merge-level 1000,0.95 -1 $(read1) -2 $(read2) -t 40
+	$(_mega)/megahit -m 0.84 -o $(CYC_FIND_OUT)/megahit --min-contig-len 27 --k-min 27 --k-max $(_k) --k-step 10 --merge-level 1000,0.95 -1 $(read1) -2 $(read2) -t 40
 	$(_end_touch)
-assemble: $(MF_DONE)
+assemble: $(ASSEMBLE_DONE)
 
 FASTA_TO_FASTG_DONE?=$(CYC_FIND_OUT)/.fasta_to_fastg
 $(FASTA_TO_FASTG_DONE): $(ASSEMBLE_DONE)
@@ -81,10 +81,10 @@ plot_cycs: $(PLOT_CYCS)
 
 NUCMER?=$(CYC_FIND_OUT)/.cycfind_nuc
 $(NUCMER): $(PLOT_CYCS)
-	$(_nucmer)/nucmer --delta=$(CYC_FIND_OUT)/REF_ORIGSEQS.delta $(molfasta) $(origfasta)
-	$(_nucmer)/nucmer --delta=$(CYC_FIND_OUT)/REF_REF.delta $(molfasta) $(molfasta)
-	$(_nucmer)/nucmer --delta=$(CYC_FIND_OUT)/REF_CONTIG.delta $(molfasta) $(CYC_FIND_OUT)/renamed_final_contigs.fa 
-	$(_nucmer)/nucmer --delta=$(CYC_FIND_OUT)/ORIGSEQS_CONTIG.delta $(origfasta) $(CYC_FIND_OUT)/renamed_final_contigs.fa
+	$(_nucmer)/nucmer --maxmatch --delta=$(CYC_FIND_OUT)/REF_ORIGSEQS.delta $(molfasta) $(origfasta)
+	$(_nucmer)/nucmer --maxmatch --delta=$(CYC_FIND_OUT)/REF_REF.delta $(molfasta) $(molfasta)
+	$(_nucmer)/nucmer --maxmatch --delta=$(CYC_FIND_OUT)/REF_CONTIG.delta $(molfasta) $(CYC_FIND_OUT)/renamed_final_contigs.fa 
+	$(_nucmer)/nucmer --maxmatch --delta=$(CYC_FIND_OUT)/ORIGSEQS_CONTIG.delta $(origfasta) $(CYC_FIND_OUT)/renamed_final_contigs.fa
 	$(_nucmer)/mummerplot --prefix=$(CYC_FIND_OUT)/REF_ORIGSEQS --png $(CYC_FIND_OUT)/REF_ORIGSEQS.delta
 	$(_nucmer)/mummerplot --prefix=$(CYC_FIND_OUT)/REF_REF --png $(CYC_FIND_OUT)/REF_REF.delta
 	$(_nucmer)/mummerplot --prefix=$(CYC_FIND_OUT)/REF_CONTIG --png $(CYC_FIND_OUT)/REF_CONTIG.delta

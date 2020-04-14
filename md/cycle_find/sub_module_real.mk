@@ -57,7 +57,7 @@ SHORT_CYCS?=$(CYC_FIND_OUT)/.short_cycs
 $(SHORT_CYCS): $(GET_WEIGHTS)
 	$(_start)
 	mkdir -p $(CYC_FIND_OUT)/cycle_stats
-	python $(_py)/get_shortest_cycs.py $(CYC_FIND_OUT)/adjacency_list $(CYC_FIND_OUT)/edge_summary $(CYC_FIND_OUT)/cycle_stats $(CYC_FIND_OUT)/summary_cycles
+	python $(_py)/get_shortest_cycs_funcs.py $(CYC_FIND_OUT)/adjacency_list $(CYC_FIND_OUT)/edge_summary $(CYC_FIND_OUT)/cycle_stats $(CYC_FIND_OUT)/summary_cycles
 	cat $(CYC_FIND_OUT)/summary_cycles | cut -f1-6,12- | uniq > $(CYC_FIND_OUT)/summary_cycles_per_cyc
 	$(_end_touch)
 short_cycs: $(SHORT_CYCS)
@@ -66,7 +66,7 @@ PLOT_CYCS?=$(CYC_FIND_OUT)/.plot2
 $(PLOT_CYCS): $(SHORT_CYCS)
 	$(_start)
 	mkdir -p $(CYC_FIND_OUT)/cycle_plots
-	Rscript $(_r)/plot_putative_cycles.R $(CYC_FIND_OUT)/summary_cycles $(CYC_FIND_OUT)/cycle_stats $(CYC_FIND_OUT)/cycle_plots $(CYC_FIND_OUT)/adjacency_matrix $(CYC_FIND_OUT)/edge_summary 
+	#Rscript $(_r)/plot_putative_cycles.R $(CYC_FIND_OUT)/summary_cycles $(CYC_FIND_OUT)/cycle_stats $(CYC_FIND_OUT)/cycle_plots $(CYC_FIND_OUT)/adjacency_matrix $(CYC_FIND_OUT)/edge_summary 
 	Rscript $(_r)/plot_cycle_coverages.R $(CYC_FIND_OUT)/summary_cycles $(CYC_FIND_OUT)
 	$(_end_touch)
 plot_cycs: $(PLOT_CYCS) 
@@ -87,7 +87,7 @@ plot_cycs: $(PLOT_CYCS)
 
 #GEN_K_READS?=$(CYC_FIND_OUT)/.k_reads
 #$(GEN_K_READS): $(PARSE_FASTG)
-#       $(_start)
+#      $(_start)
 #       #       cat $(read1) $(read2) > $(CYC_FIND_OUT)/unpaired_reads.fastq
 #       python $(_py)/generate_k_reads.py $(CYC_FIND_OUT)/unpaired_reads.fastq $(_k) $(CYC_FIND_OUT)/k_reads.fastq
 #       #       $(_end_touch)

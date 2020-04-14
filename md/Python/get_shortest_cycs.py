@@ -89,21 +89,20 @@ print("Number of startNodes:",len(startNodes))
 startNode_count = 0
 for startNode in startNodes:
     startNode_count += 1
-    distFromStart = { startNode:0 } #hashtable for distance to start
-    unexplored = [ (0,startNode) ] #priority-queue-like heap for unexplored nodes
-    explored = {} #keep track of what's been explored
-    parentsShortestPath = {} #parent pointers for shortest path.
-                             #if the path is relaxed to child, update this pointer
+    distFromStart = { startNode:0 } # hashtable for distance to start
+    unexplored = [ (0,startNode) ] # priority-queue-like heap for unexplored nodes
+    explored = {} # keep track of what's been explored
+    parentsShortestPath = {} # parent pointers for shortest path.
+                             # if the path is relaxed to child, update this pointer
     targetNode = startNode[:-1] + '-' # target node is the parent of the node's invariable edge
     minCycleExists = False
     iteration_count = 0
     queued = {}
-    while len(unexplored) > 0: #keep going until there's nothing left to explore
+    while len(unexplored) > 0: # keep going until there's nothing left to explore
         iteration_count += 1
-        minNodeTuple = heapq.heappop(unexplored) #extract min-distance node
+        minNodeTuple = heapq.heappop(unexplored) # extract min-distance node
         parentNodeDistance,minNode = minNodeTuple
-        #print("Node:",startNode,startNode_count,"Iteration:",iteration_count,"Min-node:",minNode,"Dist:",parentNodeDistance,"Visited:",explored.get(minNode))
-        if minNode == targetNode: #shortest path to target node reached!
+        if minNode == targetNode: # shortest path to target node reached!
             minCycleExists = True
             break
         explored[minNode] = 'yes' 

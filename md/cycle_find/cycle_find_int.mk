@@ -2,10 +2,9 @@
 # register module
 #####################################################################################################
 
-ifeq ($(sim),F)
-    units=sub_module_real.mk
-else
-    units=sub_module_sim.mk
+units=sub_module_real.mk
+ifeq ($(sim), T)
+	units=sub_module_sim.mk
 endif
 
 $(call _register_module,cycle_find,$(units),,)
@@ -13,7 +12,6 @@ $(call _register_module,cycle_find,$(units),,)
 #####################################################################################################
 # module parameters
 #####################################################################################################
-
 CYC_FIND_OUT_DIR=$(BASE_OUTPUT_DIR)/cyc_find_out
 CYC_FIND_OUT=$(CYC_FIND_OUT_DIR)/$(sample)
 read1?=$(_read_dir)/R1.fastq
